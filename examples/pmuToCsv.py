@@ -58,7 +58,7 @@ def createCsvFile(confFrame):
 
     stationName = confFrame.stations[0].stn
     prettyDate = time.strftime("%Y%m%d_%H%M%S", time.localtime())
-    csvFileName = "{}_{}.csv".format(prettyDate, stationName.rstrip())
+    csvFileName = "{}_{}.csv".format(prettyDate, stationName.replace('\x00',''))
     csv_path = "{}/{}".format(CSV_DIR, csvFileName)
 
     if (os.path.isfile(csv_path)):
