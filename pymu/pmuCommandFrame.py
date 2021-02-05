@@ -2,7 +2,7 @@ from .pmuFrame import PMUFrame
 from .pmuEnum import *
 from time import time
 from datetime import datetime
-from PyCRC.CRCCCITT import CRCCCITT
+from pycrc.CRCCCITT import CRCCCITT
 
 class CommandFrame(PMUFrame):
 

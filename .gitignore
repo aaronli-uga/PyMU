@@ -12,3 +12,6 @@
 
 # Swap files
 *.swp
+
+build
+.vscode
