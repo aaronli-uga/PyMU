@@ -56,7 +56,7 @@ def readConfigFrame2(cli, debug=False):
     :type debug: bool
     :return: Populated ConfigFrame
     '''
-    configFame = None
+    configFrame = None
 
     s = cli.readSample(4)
     configFrame = ConfigFrame(bytesToHexStr(s), debug)
