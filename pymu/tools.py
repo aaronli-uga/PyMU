@@ -58,7 +58,7 @@ def readConfigFrame2(cli, debug=False):
     '''
     configFrame = None
 
-    s = cli.readSample(4)
+    s = cli.readSample(4) # reading the first 4 bytes for SYNC and FRAMESIZE
     configFrame = ConfigFrame(bytesToHexStr(s), debug)
     expSize = configFrame.framesize
     s = cli.readSample(expSize - 4)
