@@ -55,7 +55,7 @@ def createCsvDir():
 def createCsvFile(confFrame):
 
     createCsvDir()
-
+    # ql: not sure why stationName has \x00 and idcodeß
     stationName = confFrame.stations[0].stn
     prettyDate = time.strftime("%Y%m%d_%H%M%S", time.localtime())
     csvFileName = "{}_{}.csv".format(prettyDate, stationName.replace('\x00',''))
@@ -119,7 +119,7 @@ def runPmuToCsv(ip, tcpPort, frameId, udpPort, index=-1, printInfo = True):
             if d == '':
                 break
             dFrame = DataFrame(d, confFrame) # Create dataFrame
-            csvPrint(dFrame, csv_handle)
+            csvPrint(dFrame, csv_handle) #ql: I got you!
             if p == 0:
                 print("Data Collection Started...")
             p += 1
