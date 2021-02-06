@@ -55,7 +55,7 @@ def createCsvDir():
 def createCsvFile(confFrame):
 
     createCsvDir()
-    # ql: not sure why stationName has \x00 and idcodeß
+    # ql: not sure why stationName has \x00 and idcode
     stationName = confFrame.stations[0].stn
     prettyDate = time.strftime("%Y%m%d_%H%M%S", time.localtime())
     csvFileName = "{}_{}.csv".format(prettyDate, stationName.replace('\x00',''))
@@ -69,6 +69,7 @@ def createCsvFile(confFrame):
     csv_handle = open(csv_path, 'w')
     csv_handle.write("Timestamp")
     for ch in confFrame.stations[0].channels:
+        # print(ch.rstrip())
         csv_handle.write(",{}".format(ch.rstrip())) if ch.rstrip() != '' else None
     csv_handle.write(",Freq")
     csv_handle.write(",ROCOF")
@@ -161,5 +162,3 @@ if __name__ == "__main__":
         udpPort = int(sys.argv[4])
 
     runPmuToCsv(ip, tcpPort, frameId, udpPort, "")
-
-
