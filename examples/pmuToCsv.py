@@ -23,6 +23,7 @@ def csvPrint(dFrame, csv_handle):
         strOut += dFrame.soc.formatted + ","
         for j in range(0, len(dFrame.pmus[i].phasors)):
             strOut += str(dFrame.pmus[i].phasors[j].deg) + ","
+            strOut += str(dFrame.pmus[i].phasors[j].mag) + ","
         strOut += str(dFrame.pmus[i].freq) + ","
         strOut += str(dFrame.pmus[i].dfreq)
         if i != (len(dFrame.pmus) - 1):
@@ -55,7 +56,7 @@ def createCsvDir():
 def createCsvFile(confFrame):
 
     createCsvDir()
-    # ql: not sure why stationName has \x00 and idcode
+    # ql: not sure why stationName still has \x00
     stationName = confFrame.stations[0].stn
     prettyDate = time.strftime("%Y%m%d_%H%M%S", time.localtime())
     csvFileName = "{}_{}.csv".format(prettyDate, stationName.replace('\x00',''))
@@ -70,7 +71,8 @@ def createCsvFile(confFrame):
     csv_handle.write("Timestamp")
     for ch in confFrame.stations[0].channels:
         # print(ch.rstrip())
-        csv_handle.write(",{}".format(ch.rstrip())) if ch.rstrip() != '' else None
+        csv_handle.write(",{}_angle".format(ch.rstrip())) if ch.rstrip() != '' else None
+        csv_handle.write(",{}_mag".format(ch.rstrip())) if ch.rstrip() != '' else None
     csv_handle.write(",Freq")
     csv_handle.write(",ROCOF")
     csv_handle.write("\n")
@@ -120,7 +122,7 @@ def runPmuToCsv(ip, tcpPort, frameId, udpPort, index=-1, printInfo = True):
             if d == '':
                 break
             dFrame = DataFrame(d, confFrame) # Create dataFrame
-            csvPrint(dFrame, csv_handle) #ql: I got you!
+            csvPrint(dFrame, csv_handle)
             if p == 0:
                 print("Data Collection Started...")
             p += 1
