@@ -87,9 +87,11 @@ def getDataSample(rcvr, debug=False):
         fullHexStr = introHexStr + remainingHexStr
         print("ql: full hex:", fullHexStr)
     else:
-        fullHexStr = bytesToHexStr(rcvr.readSample(64000))
+        introHexStr = bytesToHexStr(rcvr.readSample(4))
+        data_frame_size = int(introHexStr[5:], 16)
+        fullHexStr = introHexStr + bytesToHexStr(rcvr.readSample(2048))
 
-    return fullHexStr
+    return data_frame_size, fullHexStr
 
 def startDataCapture(idcode, ip, port=4712, tcpUdp="TCP", debug=False):
     '''
@@ -114,6 +116,8 @@ def startDataCapture(idcode, ip, port=4712, tcpUdp="TCP", debug=False):
     cli.setTimeout(5)
     
     while configFrame == None:
+        turnDataOff(cli, idcode)
+        cli.setTimeout(5)
         requestConfigFrame2(cli, idcode)
         configFrame = readConfigFrame2(cli, debug)
 

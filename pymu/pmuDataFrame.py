@@ -50,7 +50,7 @@ class DataFrame(PMUFrame):
     def updateSOC(self):
         self.soc.ff = self.fracsec / self.configFrame.time_base.baseDecStr
         self.soc.formatted = "{:0>4}/{:0>2}/{:0>2} {:0>2}:{:0>2}:{:0>2}{}".format(self.soc.yyyy, self.soc.mm, self.soc.dd, self.soc.hh, self.soc.mi, self.soc.ss, "{:f}".format(self.soc.ff).lstrip('0'))
-        dt = datetime(self.soc.yyyy, self.soc.mm, self.soc.dd, self.soc.hh, self.soc.mi, self.soc.ss, int(self.soc.ff * 10 ** 6)) 
+        dt = datetime(self.soc.yyyy, self.soc.mm, self.soc.dd, self.soc.hh, self.soc.mi, self.soc.ss, int(self.soc.ff * 10 ** 4)) 
         self.soc.utcSec = (dt - datetime(1970, 1, 1)).total_seconds()
         
 class PMU:
