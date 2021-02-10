@@ -112,7 +112,7 @@ def runPmuToCsv(ip, tcpPort, frameId, udpPort, index=-1, printInfo = True):
         dataRcvr = Server(udpPort, "UDP")
 
     dataRcvr.setTimeout(10)
-
+    print("ql: type of data recvr:", type(dataRcvr))
     print("#{}# Starting data collection...\n".format(index))# if printInfo else None
     p = 0
     milliStart = int(round(time.time() * 1000))
@@ -121,6 +121,7 @@ def runPmuToCsv(ip, tcpPort, frameId, udpPort, index=-1, printInfo = True):
             d = tools.getDataSample(dataRcvr)
             if d == '':
                 break
+            
             dFrame = DataFrame(d, confFrame) # Create dataFrame
             csvPrint(dFrame, csv_handle)
             if p == 0:

@@ -85,6 +85,7 @@ def getDataSample(rcvr, debug=False):
         remainingHexStr = bytesToHexStr(rcvr.readSample(lenToRead))
 
         fullHexStr = introHexStr + remainingHexStr
+        print("ql: full hex:", fullHexStr)
     else:
         fullHexStr = bytesToHexStr(rcvr.readSample(64000))
 
@@ -183,3 +184,5 @@ def parseSamples(data, configFrame, pmus):
 
     return pmus
 
+def split_hex_str(hex_str, frame_size):
+    return [hex_str[i:i+frame_size*2] for i in range(0, len(hex_str), frame_size*2)]

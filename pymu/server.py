@@ -71,6 +71,8 @@ class Server:
             data = self.connection.recv(length)
 
         if data:
+            print(data)
+            print(type(data))
             return data
         else:
             print("Invalid/No Data Received") if self.printInfo else None
