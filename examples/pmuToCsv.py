@@ -5,6 +5,7 @@ import datetime
 import socket
 import re
 import signal
+import traceback
 
 from pymu.server import Server
 from pymu.client import Client
@@ -95,6 +96,7 @@ def runPmuToCsv(ip, tcpPort, frameId, udpPort, index=-1, printInfo = True):
     except Exception as e:
         print("#{}# Exception: {}".format(index, e))
         print("#{}# Config Frame not received...Exiting".format(index))
+        traceback.print_exc()
         sys.exit()
 
     if confFrame:
@@ -121,7 +123,8 @@ def runPmuToCsv(ip, tcpPort, frameId, udpPort, index=-1, printInfo = True):
             dataframe_size, d = tools.getDataSample(dataRcvr)
             if d == '':
                 break
-            print(d)
+            # print("qili data list length:", len(d)/2)
+            # print("qili data list:", d)
             d_list = tools.split_hex_str(d, dataframe_size)
             for i in d_list:
                 if p == 0:
@@ -138,6 +141,7 @@ def runPmuToCsv(ip, tcpPort, frameId, udpPort, index=-1, printInfo = True):
             break
         except Exception as e:
             print("#{}# Exception: {}".format(index, e))
+            traceback.print_exc()
             break
             
     # Print statistics about processing speed

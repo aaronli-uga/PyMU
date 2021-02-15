@@ -79,17 +79,20 @@ def getDataSample(rcvr, debug=False):
     '''
     fullHexStr = ""
 
-    if type(rcvr) == "client":
-        introHexStr = bytesToHexStr(rcvr.readSample(4))
-        lenToRead = int(introHexStr[5:], 16)
-        remainingHexStr = bytesToHexStr(rcvr.readSample(lenToRead))
+    # if type(rcvr) == "client":
+    #     introHexStr = bytesToHexStr(rcvr.readSample(4))
+    #     lenToRead = int(introHexStr[5:], 16)
+    #     remainingHexStr = bytesToHexStr(rcvr.readSample(lenToRead))
 
-        fullHexStr = introHexStr + remainingHexStr
-        print("ql: full hex:", fullHexStr)
-    else:
-        introHexStr = bytesToHexStr(rcvr.readSample(4))
-        data_frame_size = int(introHexStr[5:], 16)
-        fullHexStr = introHexStr + bytesToHexStr(rcvr.readSample(2048))
+    #     fullHexStr = introHexStr + remainingHexStr
+    #     print("ql: full hex:", fullHexStr)
+    # else:
+    #     introHexStr = bytesToHexStr(rcvr.readSample(4))
+    #     data_frame_size = int(introHexStr[5:], 16)
+    #     fullHexStr = introHexStr + bytesToHexStr(rcvr.readSample(2048))
+    #magic number: 2220 = 74 * 30
+    fullHexStr = bytesToHexStr(rcvr.readSample(2220))
+    data_frame_size = int(fullHexStr[5:8], 16)
 
     return data_frame_size, fullHexStr
 

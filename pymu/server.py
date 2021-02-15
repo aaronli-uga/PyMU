@@ -68,7 +68,7 @@ class Server:
         else:
             if self.connection == None:
                 self.waitForConnection()
-            data = self.connection.recv(length)
+            data = self.connection.recv(length, socket.MSG_WAITALL)
 
         if data:
             print(data)

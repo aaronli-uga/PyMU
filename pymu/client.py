@@ -74,7 +74,7 @@ class Client:
             if self.useUdp:
                 return self.theSocket.recvfrom(bytesToRead)
             else:
-                return self.theSocket.recv(bytesToRead)
+                return self.theSocket.recv(bytesToRead, socket.MSG_WAITALL)
         except (socket.timeout):
             print("Socket Timeout")
             return ""

@@ -104,15 +104,19 @@ def runPmuToInfluxDB(ip, tcpPort, frameId, udpPort, index=-1, printInfo = True):
     milliStart = int(round(time.time() * 1000))
     while RUNNING:
         try:
-            d = tools.getDataSample(dataRcvr)
+            # d = tools.getDataSample(dataRcvr)
+            dataframe_size, d = tools.getDataSample(dataRcvr)
             if d == '':
                 break
-            dFrame = DataFrame(d, confFrame) # Create dataFrame
-            # csvPrint(dFrame, csv_handle)
-            dbWrite(dFrame, value_list)
-            if p == 0:
-                print("Data Collection Started...")
-            p += 1
+            d_list = tools.split_hex_str(d, dataframe_size)
+            for i in d_list:
+                if p == 0:
+                    print("Data Collection Started...")
+                dFrame = DataFrame(d, confFrame) # Create dataFrame
+                # csvPrint(dFrame, csv_handle)
+                dbWrite(dFrame, value_list)
+                p += 1
+    
             # flush the data to the databases
             if not (p % buf_size):
                 db_client.write_points(value_list, time_precision='n', batch_size=10000, protocol='json')
