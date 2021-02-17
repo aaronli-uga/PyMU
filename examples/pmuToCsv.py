@@ -23,7 +23,7 @@ def csvPrint(dFrame, csv_handle):
     for i in range(0, len(dFrame.pmus)):
         strOut += dFrame.soc.formatted + ","
         for j in range(0, len(dFrame.pmus[i].phasors)):
-            strOut += str(dFrame.pmus[i].phasors[j].deg) + ","
+            strOut += str(dFrame.pmus[i].phasors[j].rad) + ","
             strOut += str(dFrame.pmus[i].phasors[j].mag) + ","
         strOut += str(dFrame.pmus[i].freq) + ","
         strOut += str(dFrame.pmus[i].dfreq)

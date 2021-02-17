@@ -29,12 +29,11 @@ db_client = InfluxDBClient(host=host, port=port, username=username, password=pwd
 RUNNING = True
 
 def dbWrite(dFrame, value_list):
-
     ts = datetime.datetime.strptime(dFrame.soc.formatted, '%Y/%m/%d %H:%M:%S.%f')
     values = [int(ts.timestamp()* 1000000000)]
     for i in range(0, len(dFrame.pmus)):
         for j in range(0, len(dFrame.pmus[i].phasors)):
-            values.append(dFrame.pmus[i].phasors[j].deg)
+            values.append(dFrame.pmus[i].phasors[j].rad)
             values.append(dFrame.pmus[i].phasors[j].mag)
         values.append(dFrame.pmus[i].freq)
         values.append(dFrame.pmus[i].dfreq)
@@ -112,13 +111,13 @@ def runPmuToInfluxDB(ip, tcpPort, frameId, udpPort, index=-1, printInfo = True):
             for i in d_list:
                 if p == 0:
                     print("Data Collection Started...")
-                dFrame = DataFrame(d, confFrame) # Create dataFrame
+                dFrame = DataFrame(i, confFrame) # Create dataFrame
                 # csvPrint(dFrame, csv_handle)
                 dbWrite(dFrame, value_list)
                 p += 1
     
             # flush the data to the databases
-            if not (p % buf_size):
+            if (p % buf_size):
                 db_client.write_points(value_list, time_precision='n', batch_size=10000, protocol='json')
                 value_list = []
 
